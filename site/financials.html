@@ -25,7 +25,7 @@
   </div>
 </header>
 <div class="disclaimer-bar">
-  <div class="wrap">⚠️ <span>Every figure below is manually transcribed from AIFF's own audited financial statements, cross-checked against the comparative column of the following year's report. We link the exact source PDF for every number — verify it yourself.</span></div>
+  <div class="wrap">ℹ️ <span>Every figure below is manually transcribed from AIFF's own audited financial statements, cross-checked against the comparative column of the following year's report. We link the exact source PDF for every number — verify it yourself.</span></div>
 </div>
 
 <main>
@@ -38,7 +38,7 @@
       read the table.
     </p>
 
-    <div class="methodology-box" id="honesty-note">
+    <div class="methodology-box is-warning" id="honesty-note">
       <h3>⚠️ What we can and can't show you</h3>
       <ul>
         <li><strong>No month-by-month data exists.</strong> AIFF discloses finances annually, not monthly.
@@ -127,8 +127,8 @@
           <td><strong>FY ${escapeHtml(fy.fy)}</strong><br><span style="color:var(--text-muted);font-size:0.78rem;">${escapeHtml(fy.period)}</span></td>
           <td>${fmtRupees(fy.total_income)}</td>
           <td>${fmtRupees(fy.total_expenditure)}</td>
-          <td style="color:${fy.surplus_deficit < 0 ? 'var(--danger)' : 'inherit'};font-weight:700;">${fmtRupees(fy.surplus_deficit)} ${fy.surplus_deficit_label}</td>
-          <td><span class="pill ${fy.audit_opinion.toLowerCase().includes('disclaimer') ? 'status-disputed' : ''}">${escapeHtml(fy.audit_opinion.split('—')[0].trim())}</span></td>
+          <td style="color:${fy.surplus_deficit < 0 ? 'var(--danger)' : 'var(--good)'};font-weight:700;">${fmtRupees(fy.surplus_deficit)} ${fy.surplus_deficit_label}</td>
+          <td><span class="pill ${fy.audit_opinion.toLowerCase().includes('disclaimer') ? 'pill-critical' : ''}">${escapeHtml(fy.audit_opinion.split('—')[0].trim())}</span></td>
           <td><a href="${escapeHtml(fy.source_pdf)}" target="_blank" rel="noopener">PDF ↗</a></td>
         </tr>`).join("");
 

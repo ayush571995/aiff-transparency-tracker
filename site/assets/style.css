@@ -1,23 +1,40 @@
 :root {
-  --bg: #f4f5f7;
+  /* Fixed brand chrome — same in light and dark, like a logo. Deep pitch green
+     + a thin saffron edge: a restrained, intentional nod to the tricolor,
+     not decoration repeated everywhere. */
+  --brand: #123c27;
+  --brand-contrast: #ffffff;
+  --brand-edge: #e8720c;
+
+  --bg: #f6f5f2;
   --surface: #ffffff;
-  --surface-2: #fafbfc;
-  --border: #e1e4e9;
-  --text: #16181c;
-  --text-muted: #626a75;
-  --accent: #0b6b45;       /* deep football green */
-  --accent-strong: #084d33;
-  --accent-soft: #e7f3ee;
-  --accent-2: #f0651c;      /* saffron accent, used sparingly */
-  --accent-contrast: #ffffff;
+  --surface-2: #f2f4f2;
+  --border: #e1e4e1;
+  --text: #14171a;
+  --text-muted: #5b6167;
+
+  /* Interactive accent (links, focus rings, stat numbers) — tuned per-theme
+     for contrast, distinct from the fixed brand color above. */
+  --accent: #0f7a4d;
+  --accent-soft: #e6f2ea;
+  --link: var(--accent);
+
+  /* Status palette — reserved for actual findings (surplus/deficit, audit
+     opinions, disputed claims), never reused for category/taxonomy. */
+  --good: #157f3c;
+  --good-soft: #e7f5ec;
   --danger: #b3261e;
   --danger-soft: #fbeae8;
-  --warn-bg: #fff6e5;
-  --warn-border: #eab84f;
-  --warn-text: #7a5200;
-  --link: #0b6b45;
-  --code-bg: #eef1f4;
-  /* Material-style elevation scale (dp1/2/3/4/6/8/12/16/24 approximated) */
+  --warn-text: #8a5a00;
+  --warn-bg: #fff3df;
+  --warn-border: #e3a53d;
+
+  /* Neutral — category/taxonomy pills and routine info notices. */
+  --neutral-text: #475569;
+  --neutral-bg: #eef1f4;
+
+  --code-bg: #eef0ee;
+
   --elevation-1: 0 1px 2px rgba(20,20,20,0.10), 0 1px 3px 1px rgba(20,20,20,0.08);
   --elevation-2: 0 1px 2px rgba(20,20,20,0.12), 0 2px 6px 2px rgba(20,20,20,0.10);
   --elevation-3: 0 4px 8px 3px rgba(20,20,20,0.10), 0 1px 3px rgba(20,20,20,0.14);
@@ -29,9 +46,6 @@
   --radius: 12px;
   --radius-lg: 16px;
   --maxw: 1120px;
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 14px;
   --space-4: 22px;
   --space-5: 36px;
   --space-6: 56px;
@@ -39,41 +53,43 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #101315;
-    --surface: #191d21;
-    --surface-2: #14181b;
-    --border: #2a2f34;
+    --bg: #14171a;
+    --surface: #1c2024;
+    --surface-2: #181b1e;
+    --border: #2b3430;
     --text: #edeff1;
     --text-muted: #9aa3ac;
-    --accent: #3ecf8e;
-    --accent-strong: #6ee6ac;
+    --accent: #34c77b;
     --accent-soft: #16261f;
-    --accent-2: #ff9257;
-    --accent-contrast: #07130e;
+    --good: #2fb158;
+    --good-soft: #17281d;
     --danger: #ff7a70;
     --danger-soft: #2b1614;
+    --warn-text: #ffd479;
     --warn-bg: #2b2210;
     --warn-border: #ad8a2e;
-    --warn-text: #ffd479;
-    --link: #3ecf8e;
-    --code-bg: #1e2327;
+    --neutral-text: #9aa8b8;
+    --neutral-bg: #1e242b;
+    --code-bg: #1e2320;
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
     --shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
     --shadow-lg: 0 10px 32px rgba(0, 0, 0, 0.5);
   }
 }
 :root[data-theme="dark"] {
-  --bg: #101315; --surface: #191d21; --surface-2: #14181b; --border: #2a2f34; --text: #edeff1;
-  --text-muted: #9aa3ac; --accent: #3ecf8e; --accent-strong: #6ee6ac; --accent-soft: #16261f;
-  --accent-2: #ff9257; --accent-contrast: #07130e; --danger: #ff7a70; --danger-soft: #2b1614;
-  --warn-bg: #2b2210; --warn-border: #ad8a2e; --warn-text: #ffd479; --link: #3ecf8e; --code-bg: #1e2327;
+  --bg: #14171a; --surface: #1c2024; --surface-2: #181b1e; --border: #2b3430; --text: #edeff1;
+  --text-muted: #9aa3ac; --accent: #34c77b; --accent-soft: #16261f;
+  --good: #2fb158; --good-soft: #17281d; --danger: #ff7a70; --danger-soft: #2b1614;
+  --warn-text: #ffd479; --warn-bg: #2b2210; --warn-border: #ad8a2e;
+  --neutral-text: #9aa8b8; --neutral-bg: #1e242b; --code-bg: #1e2320;
   --shadow-sm: 0 1px 2px rgba(0,0,0,0.3); --shadow: 0 2px 12px rgba(0,0,0,0.35); --shadow-lg: 0 10px 32px rgba(0,0,0,0.5);
 }
 :root[data-theme="light"] {
-  --bg: #f4f5f7; --surface: #ffffff; --surface-2: #fafbfc; --border: #e1e4e9; --text: #16181c;
-  --text-muted: #626a75; --accent: #0b6b45; --accent-strong: #084d33; --accent-soft: #e7f3ee;
-  --accent-2: #f0651c; --accent-contrast: #ffffff; --danger: #b3261e; --danger-soft: #fbeae8;
-  --warn-bg: #fff6e5; --warn-border: #eab84f; --warn-text: #7a5200; --link: #0b6b45; --code-bg: #eef1f4;
+  --bg: #f6f5f2; --surface: #ffffff; --surface-2: #f2f4f2; --border: #e1e4e1; --text: #14171a;
+  --text-muted: #5b6167; --accent: #0f7a4d; --accent-soft: #e6f2ea;
+  --good: #157f3c; --good-soft: #e7f5ec; --danger: #b3261e; --danger-soft: #fbeae8;
+  --warn-text: #8a5a00; --warn-bg: #fff3df; --warn-border: #e3a53d;
+  --neutral-text: #475569; --neutral-bg: #eef1f4; --code-bg: #eef0ee;
   --shadow-sm: 0 1px 2px rgba(20,20,20,0.06); --shadow: 0 2px 10px rgba(20,20,20,0.07); --shadow-lg: 0 8px 28px rgba(20,20,20,0.12);
 }
 
@@ -85,7 +101,6 @@ body {
   font-family: Roboto, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 1.6;
-  letter-spacing: 0.01em;
   -webkit-font-smoothing: antialiased;
 }
 a { color: var(--link); text-decoration: none; }
@@ -93,11 +108,11 @@ a:hover { text-decoration: underline; }
 code { background: var(--code-bg); padding: 1px 6px; border-radius: 4px; font-size: 0.9em; }
 .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
 
-/* ---------- Header / nav ---------- */
+/* ---------- Header / nav (fixed brand chrome, same in both themes) ---------- */
 header.site {
-  background: linear-gradient(135deg, var(--accent-strong), var(--accent));
-  color: var(--accent-contrast);
-  border-bottom: 3px solid var(--accent-2);
+  background: var(--brand);
+  color: var(--brand-contrast);
+  border-bottom: 3px solid var(--brand-edge);
   position: sticky;
   top: 0;
   z-index: 40;
@@ -107,7 +122,7 @@ header.site {
 header.site.elevated { box-shadow: var(--elevation-3); }
 header.site .wrap { padding-top: 14px; padding-bottom: 0; }
 .brand-row { display: flex; align-items: center; justify-content: space-between; padding-bottom: 12px; }
-.brand { font-weight: 800; font-size: 1.2rem; letter-spacing: 0.2px; color: var(--accent-contrast); display: flex; align-items: baseline; gap: 8px; }
+.brand { font-weight: 800; font-size: 1.2rem; letter-spacing: 0.2px; color: var(--brand-contrast); display: flex; align-items: baseline; gap: 8px; }
 .brand::before { content: "⚽"; font-size: 1.05em; }
 .brand small { display: block; font-weight: 500; font-size: 0.68rem; opacity: 0.85; text-transform: uppercase; letter-spacing: 0.09em; margin-top: 2px; }
 
@@ -115,13 +130,15 @@ header.site .wrap { padding-top: 14px; padding-bottom: 0; }
   display: none;
   background: rgba(255,255,255,0.14);
   border: 1px solid rgba(255,255,255,0.25);
-  color: var(--accent-contrast);
+  color: var(--brand-contrast);
   font-size: 1.1rem;
   line-height: 1;
   padding: 7px 11px;
   border-radius: 8px;
   cursor: pointer;
+  transition: transform 0.08s ease, background 0.15s;
 }
+.nav-toggle:active { transform: scale(0.96); }
 
 nav.site {
   display: flex;
@@ -133,27 +150,35 @@ nav.site {
 }
 nav.site::-webkit-scrollbar { height: 4px; }
 nav.site a {
-  color: var(--accent-contrast);
+  color: var(--brand-contrast);
   opacity: 0.82;
   font-weight: 600;
   font-size: 0.86rem;
   white-space: nowrap;
   padding: 7px 12px;
   border-radius: 999px;
-  transition: background 0.15s, opacity 0.15s;
+  transition: background 0.15s, opacity 0.15s, transform 0.08s ease;
 }
 nav.site a:hover { opacity: 1; background: rgba(255,255,255,0.12); text-decoration: none; }
 nav.site a.active { opacity: 1; background: rgba(255,255,255,0.22); }
+nav.site a:active { transform: scale(0.96); }
 
+/* Routine, low-key notice strip — most pages use this for the standard
+   independence/sourcing note. Calm by design: everyday text shouldn't wear
+   alarm colors, or real warnings stop standing out. */
 .disclaimer-bar {
-  background: var(--warn-bg);
-  border-bottom: 1px solid var(--warn-border);
+  background: var(--neutral-bg);
+  border-bottom: 1px solid var(--border);
   font-size: 0.83rem;
-  color: var(--warn-text);
+  color: var(--neutral-text);
   padding: 9px 0;
 }
 .disclaimer-bar .wrap { display: flex; gap: 8px; align-items: baseline; }
-.disclaimer-bar a { color: var(--warn-text); text-decoration: underline; }
+.disclaimer-bar a { color: var(--text); text-decoration: underline; }
+
+/* Reserved for genuine warnings/findings inline in content (rare, on purpose). */
+.disclaimer-bar.is-warning { background: var(--warn-bg); border-bottom-color: var(--warn-border); color: var(--warn-text); }
+.disclaimer-bar.is-warning a { color: var(--warn-text); }
 
 /* ---------- Layout ---------- */
 main { padding: var(--space-5) 0 var(--space-6); }
@@ -173,6 +198,7 @@ h3 { font-size: 1rem; }
 .stat-card:has(a) { padding: 0; overflow: hidden; }
 .stat-card a { display: block; padding: 16px 18px; color: inherit; }
 .stat-card a:hover { text-decoration: none; background: var(--accent-soft); }
+.stat-card a:active { transform: scale(0.98); }
 .stat-card:hover { box-shadow: var(--shadow); }
 .stat-card .num { font-size: 1.9rem; font-weight: 800; color: var(--accent); line-height: 1.1; }
 .stat-card .lbl { font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.045em; margin-top: 4px; }
@@ -186,12 +212,16 @@ h3 { font-size: 1rem; }
 .card h3 { margin: 0 0 6px; font-size: 1.03rem; line-height: 1.4; }
 .meta-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 8px; }
 
+/* Pills: neutral (taxonomy/category) by default. Status colors are opt-in
+   via modifier classes and reserved for actual findings — never a stand-in
+   for "this document's category." */
 .pill {
-  display: inline-block; background: var(--accent-soft); border: 1px solid transparent;
-  border-radius: 999px; padding: 3px 11px; font-size: 0.74rem; font-weight: 600; color: var(--accent-strong);
+  display: inline-block; background: var(--neutral-bg); border: 1px solid transparent;
+  border-radius: 999px; padding: 3px 11px; font-size: 0.74rem; font-weight: 600; color: var(--neutral-text);
 }
-:root[data-theme="dark"] .pill, .pill { color: var(--accent-strong); }
-.pill.status-disputed, .pill.status-allegation { background: var(--warn-bg); border-color: var(--warn-border); color: var(--warn-text); }
+.pill-good { background: var(--good-soft); color: var(--good); }
+.pill-warn, .pill.status-disputed, .pill.status-allegation { background: var(--warn-bg); border-color: var(--warn-border); color: var(--warn-text); }
+.pill-critical { background: var(--danger-soft); color: var(--danger); }
 
 .source-list { margin: 8px 0 0; padding-left: 18px; font-size: 0.85rem; }
 .source-list li { margin-bottom: 4px; }
@@ -208,20 +238,13 @@ input[type="search"]:focus, select:focus, textarea:focus {
   outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
-/* ---------- Buttons (Material filled/text + press feedback) ---------- */
 button { font-family: inherit; cursor: pointer; }
-.nav-toggle, button.btn {
-  transition: transform 0.08s ease, background 0.15s;
-}
-.nav-toggle:active, button.btn:active, nav.site a:active, .stat-card a:active {
-  transform: scale(0.96);
-}
 
 /* ---------- FAB: back to top ---------- */
 .fab-top {
   position: fixed; right: 22px; bottom: 22px; z-index: 50;
   width: 48px; height: 48px; border-radius: 16px; border: none;
-  background: var(--accent); color: var(--accent-contrast);
+  background: var(--brand); color: var(--brand-contrast);
   box-shadow: var(--elevation-3); font-size: 1.2rem; cursor: pointer;
   display: none; align-items: center; justify-content: center;
   transition: transform 0.15s, box-shadow 0.15s, opacity 0.2s;
@@ -273,6 +296,10 @@ footer.site a { color: var(--text-muted); text-decoration: underline; }
 
 .methodology-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 22px; margin: 16px 0; box-shadow: var(--shadow-sm); }
 .methodology-box h3 { margin-top: 0; }
+/* A genuine warning callout inside content (audit findings, honesty notes) —
+   the one place amber is earned. */
+.methodology-box.is-warning { background: var(--warn-bg); border-color: var(--warn-border); }
+.methodology-box.is-warning h3 { color: var(--warn-text); }
 
 /* ---------- Hero (home) ---------- */
 .hero { padding: 6px 0 8px; }
