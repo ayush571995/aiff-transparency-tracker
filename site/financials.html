@@ -15,6 +15,7 @@
       <a href="today.html">Today</a>
       <a href="news.html">News</a>
       <a href="documents.html">Documents</a>
+      <a href="tenders.html">Tenders</a>
       <a href="financials.html">Financials</a>
       <a href="governance.html">Governance</a>
       <a href="conduct.html">Conduct &amp; Rules</a>
@@ -74,6 +75,14 @@
     <p class="lede">Every one of AIFF's published tenders/RFPs, auto-classified by what it's procuring (not how much was paid — see note above). Click a category to see the underlying documents.</p>
     <div id="purpose-breakdown"><div class="loading-state">Loading…</div></div>
 
+    <h2>Confirmed contract amounts — actual money, actual companies</h2>
+    <p class="lede">
+      For a handful of tenders, AIFF <em>did</em> publish who won and for how much. See the full breakdown,
+      every bidder's quote, and the companies named, on the <a href="tenders.html">Tenders &amp; Contract
+      Awards</a> page.
+    </p>
+    <div id="awards-summary" class="card"><div class="loading-state">Loading…</div></div>
+
     <h2 id="rti-tool">Ask AIFF directly: RTI request generator</h2>
     <p class="lede">
       AIFF receives government recognition and funding and, per the National Sports Development Code 2011
@@ -111,11 +120,34 @@
 
   (async () => {
     try {
-      const [fin, docs, manifest] = await Promise.all([
+      const [fin, docs, manifest, tenderResults] = await Promise.all([
         DATA.json("financials.json"),
         DATA.json("documents.json"),
         DATA.json("manifest.json").catch(() => null),
+        DATA.json("tender_results.json").catch(() => []),
       ]);
+
+      // Sum only unambiguous, single-figure amounts (explicit L1 awards with a
+      // stated amount, or bid_table tenders with exactly one line item each).
+      // Multi-line-item tenders are deliberately excluded - see Tenders page.
+      const confirmedAmounts = [];
+      tenderResults.forEach(r => {
+        if (r.pattern === "single_l1" && r.awarded_to && r.awarded_to.amount_inr) {
+          confirmedAmounts.push(r.awarded_to.amount_inr);
+        } else if (r.pattern === "bid_table" && r.lowest_bidder) {
+          confirmedAmounts.push(r.lowest_bidder.amount_inr);
+        }
+      });
+      const totalConfirmed = confirmedAmounts.reduce((a, b) => a + b, 0);
+      document.getElementById("awards-summary").innerHTML = `
+        <p style="margin:0;">Sum of individually confirmed contract amounts found in AIFF's published
+        tender-result documents so far: <strong style="font-size:1.3rem;color:var(--good);">₹${totalConfirmed.toLocaleString("en-IN")}</strong>
+        across ${confirmedAmounts.length} contract${confirmedAmounts.length === 1 ? "" : "s"}.</p>
+        <p style="margin:8px 0 0;font-size:0.82rem;color:var(--text-muted);">
+        This is <strong>not</strong> AIFF's total spending — it's the sum of the few individual contracts
+        where AIFF happened to publish a clear result. Most of AIFF's 148+ tenders don't have a published
+        outcome at all. See <a href="tenders.html">Tenders &amp; Contract Awards</a> for the full,
+        company-by-company breakdown.</p>`;
       if (manifest) {
         document.getElementById("last-updated").innerHTML = `<span class="dot"></span> Documents index last refreshed ${fmtDate(manifest.last_updated)}. Financial figures below are curated, not auto-scraped — see dates per source.`;
       }

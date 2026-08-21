@@ -9,6 +9,7 @@ import json
 import scrape_documents
 import scrape_governance
 import scrape_news
+import scrape_tender_results
 from common import DATA_DIR, now_iso, write_json
 
 HISTORY_DIR = DATA_DIR / "history"
@@ -77,6 +78,9 @@ if __name__ == "__main__":
     write_json("news.json", news)
     write_json("governance.json", governance)
 
+    tender_results = scrape_tender_results.run(documents)
+    write_json("tender_results.json", tender_results)
+
     today = now_iso()[:10]
     write_history_partition(
         today,
@@ -94,6 +98,7 @@ if __name__ == "__main__":
                 "documents": len(documents),
                 "news": len(news),
                 "governance": len(governance),
+                "tender_results": len(tender_results),
             },
             "today_new_counts": {
                 "documents": len(new_documents),

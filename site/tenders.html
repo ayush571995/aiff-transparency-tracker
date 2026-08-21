@@ -1,0 +1,136 @@
+<title>Tenders & Contract Awards — RoadTo FIFA WC</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Which companies actually won AIFF's tenders, and for how much — extracted directly from AIFF's own published tender-result PDFs.">
+<link rel="stylesheet" href="assets/style.css">
+
+<header class="site">
+  <div class="wrap">
+    <div class="brand-row">
+      <div class="brand">RoadTo FIFA WC<small>AIFF Transparency Tracker</small></div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    </div>
+    <nav class="site" id="site-nav">
+      <a href="index.html">Home</a>
+      <a href="today.html">Today</a>
+      <a href="news.html">News</a>
+      <a href="documents.html">Documents</a>
+      <a href="tenders.html">Tenders</a>
+      <a href="financials.html">Financials</a>
+      <a href="governance.html">Governance</a>
+      <a href="conduct.html">Conduct &amp; Rules</a>
+      <a href="timeline.html">Timeline</a>
+      <a href="legal.html">Legal</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+<div class="disclaimer-bar">
+  <div class="wrap">ℹ️ <span>Extracted from AIFF's own published tender-result PDFs — company names and amounts are transcribed by an automated parser, not typed by hand. Every entry links to the source PDF; verify anything you plan to rely on.</span></div>
+</div>
+
+<main>
+  <div class="wrap">
+    <h1>Tenders &amp; Contract Awards</h1>
+    <p class="lede">
+      AIFF runs 148+ tenders/RFPs (see <a href="documents.html">Documents</a> for the full list), but
+      most of those are just the call for bids — AIFF doesn't always publish who won. This page covers
+      the subset where AIFF <em>did</em> publish a result: who bid, who won, and for how much.
+    </p>
+
+    <div class="methodology-box is-warning">
+      <h3>⚠️ Read this before the numbers below</h3>
+      <ul>
+        <li><strong>This is a small, incomplete slice.</strong> Of 148+ tenders/RFPs on AIFF's site, only
+        a handful have a published result document at all — most tenders' outcomes simply aren't public.
+        A short list here does not mean AIFF only ran a few tenders.</li>
+        <li><strong>Some tenders bundle multiple line items</strong> (e.g. two separate events in one
+        tender) with a separate amount for each. We show every amount found but do not guess which
+        company "won" the tender as a whole when it isn't stated — read the source PDF.</li>
+        <li><strong>Some published "results" list bids without declaring a winner.</strong> We only claim
+        "awarded to X" when AIFF's own document explicitly says so (its "L1 bidder" language). Otherwise we
+        show the bid comparison and let you read AIFF's own document for any award decision.</li>
+        <li><strong>These are individual contract values, not AIFF's total spending.</strong> See
+        <a href="financials.html">Financials</a> for audited income/expenditure — do not add up this
+        page's numbers and call it "AIFF's budget."</li>
+      </ul>
+    </div>
+
+    <div id="summary-stats" class="stats-row"></div>
+
+    <h2>Confirmed awards</h2>
+    <p class="lede">Tenders where AIFF's own document explicitly names the winning bidder.</p>
+    <div id="awarded-list"><div class="loading-state">Loading…</div></div>
+
+    <h2>Published bid comparisons (no explicit winner stated)</h2>
+    <p class="lede">AIFF published every bidder's quote, but the document itself doesn't declare a winner in so many words.</p>
+    <div id="bidtable-list"><div class="loading-state">Loading…</div></div>
+
+    <h2>Found, but not parseable</h2>
+    <p class="lede">AIFF published something here, but it's a scanned image or an unrecognized layout — read the PDF directly.</p>
+    <div id="unparsed-list"></div>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap"><p>Source: <a href="https://www.the-aiff.com/documents/tenders-and-rfps" target="_blank" rel="noopener">the-aiff.com/documents/tenders-and-rfps</a>. See <a href="about.html">Methodology</a> and <a href="legal.html">Legal</a>.</p></div></footer>
+
+<script src="assets/app.js"></script>
+<script>
+  function fmtINR(n) {
+    if (n === null || n === undefined) return "amount not stated";
+    return `₹${n.toLocaleString("en-IN")}`;
+  }
+
+  (async () => {
+    try {
+      const results = await DATA.json("tender_results.json");
+
+      const awarded = results.filter(r => r.pattern === "single_l1" && r.awarded_to && r.awarded_to.name);
+      const bidTables = results.filter(r => r.pattern === "bid_table" && r.bidders.length);
+      const unparsed = results.filter(r => !awarded.includes(r) && !bidTables.includes(r));
+
+      document.getElementById("summary-stats").innerHTML = `
+        <div class="stat-card"><div class="num">${awarded.length}</div><div class="lbl">Confirmed awards found</div></div>
+        <div class="stat-card"><div class="num">${bidTables.length}</div><div class="lbl">Bid comparisons found</div></div>
+        <div class="stat-card"><div class="num">${new Set([...awarded.map(a=>a.awarded_to.name), ...bidTables.flatMap(b=>b.bidders.map(x=>x.name))]).size}</div><div class="lbl">Distinct companies named</div></div>
+        <div class="stat-card"><div class="num">${results.length}</div><div class="lbl">Result-type documents checked</div></div>
+      `;
+
+      document.getElementById("awarded-list").innerHTML = awarded.map(r => `
+        <div class="card">
+          <h3>${escapeHtml(r.title)}</h3>
+          <p><span class="pill pill-good">Awarded to ${escapeHtml(r.awarded_to.name)}</span>
+             ${r.awarded_to.amount_inr ? `<strong style="margin-left:8px;">${fmtINR(r.awarded_to.amount_inr)}</strong>${r.awarded_to.quote_basis ? ` <span style="color:var(--text-muted);font-size:0.85rem;">(${escapeHtml(r.awarded_to.quote_basis)})</span>` : ""}` : `<span style="color:var(--text-muted);"> — amount not stated in this document</span>`}
+          </p>
+          <div class="meta-row"><a href="${escapeHtml(r.file_url)}" target="_blank" rel="noopener">Open source PDF ↗</a></div>
+        </div>`).join("") || `<div class="empty-state">No explicit awards parsed yet.</div>`;
+
+      document.getElementById("bidtable-list").innerHTML = bidTables.map(r => `
+        <div class="card">
+          <h3>${escapeHtml(r.title)}</h3>
+          ${r.multi_line_item ? `<p class="meta-row" style="margin-top:0;"><span class="pill pill-warn">Multiple line items — amounts not attributed to a single winner</span></p>` : ""}
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Bidder</th><th>Amount(s) quoted</th></tr></thead>
+              <tbody>
+                ${r.bidders.map(b => `<tr><td>${escapeHtml(b.name)}</td><td>${b.amounts_inr.length ? b.amounts_inr.map(fmtINR).join(" · ") : "not stated"}</td></tr>`).join("")}
+              </tbody>
+            </table>
+          </div>
+          ${r.lowest_bidder ? `<p style="margin-top:10px;"><span class="pill pill-good">Lowest bidder on paper: ${escapeHtml(r.lowest_bidder.name)} (${fmtINR(r.lowest_bidder.amount_inr)})</span> <span style="color:var(--text-muted);font-size:0.8rem;">— this document does not itself state that the lowest bidder was awarded the contract</span></p>` : ""}
+          <div class="meta-row"><a href="${escapeHtml(r.file_url)}" target="_blank" rel="noopener">Open source PDF ↗</a></div>
+        </div>`).join("") || `<div class="empty-state">No bid comparison tables parsed yet.</div>`;
+
+      document.getElementById("unparsed-list").innerHTML = unparsed.length ? unparsed.map(r => `
+        <div class="card">
+          <h3>${escapeHtml(r.title)}</h3>
+          <p class="meta-row" style="margin-top:0;"><span class="pill">${r.pattern === "image_only" ? "Scanned image — no extractable text" : r.pattern === "fetch_failed" ? "Could not fetch document" : "Unrecognized layout"}</span></p>
+          <div class="meta-row"><a href="${escapeHtml(r.file_url)}" target="_blank" rel="noopener">Open source PDF ↗</a></div>
+        </div>`).join("") : `<div class="empty-state">Nothing in this bucket right now.</div>`;
+    } catch (e) {
+      console.error(e);
+      document.getElementById("awarded-list").innerHTML = `<div class="empty-state">Failed to load tender_results.json</div>`;
+    }
+  })();
+</script>
+<script data-goatcounter="https://truesaiyan.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
