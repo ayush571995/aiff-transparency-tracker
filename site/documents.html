@@ -1,0 +1,106 @@
+<title>Documents — Road to WC34</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Every audit report, tender/RFP, judicial decision and compliance filing AIFF has published on its own site, indexed and searchable.">
+<link rel="stylesheet" href="assets/style.css">
+
+<header class="site">
+  <div class="wrap">
+    <div class="brand">Road to WC34<small>AIFF Transparency Tracker</small></div>
+    <nav class="site">
+      <a href="index.html">Home</a>
+      <a href="documents.html">Documents</a>
+      <a href="news.html">News</a>
+      <a href="governance.html">Governance</a>
+      <a href="timeline.html">Timeline</a>
+      <a href="about.html">About &amp; Methodology</a>
+    </nav>
+  </div>
+</header>
+<div class="disclaimer-bar">
+  <div class="wrap">⚠️ <span>These are documents AIFF itself published. We only index and date them — click through to read the original PDF.</span></div>
+</div>
+
+<main>
+  <div class="wrap">
+    <h1>Documents &amp; Financial Filings</h1>
+    <p class="lede">Audit reports / financial statements, tenders &amp; RFPs, judicial-body decisions, MYAS compliance filings and constitutional documents — all pulled directly from AIFF's own "Documents &amp; Regulations" section.</p>
+    <div id="last-updated" class="badge-live">Loading last-updated info…</div>
+
+    <div class="controls">
+      <input type="search" id="q" placeholder="Search by title…" aria-label="Search documents">
+      <select id="category-filter" aria-label="Filter by category"><option value="">All categories</option></select>
+      <select id="year-filter" aria-label="Filter by year"><option value="">All years</option></select>
+    </div>
+
+    <p id="result-count" class="lede"></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Title</th><th>Category</th><th>Year</th><th>Link</th></tr></thead>
+        <tbody id="doc-rows"><tr><td colspan="4" class="loading-state">Loading…</td></tr></tbody>
+      </table>
+    </div>
+
+    <p style="margin-top:18px;font-size:0.85rem;color:var(--text-muted)">
+      Note: some AIFF document sub-sections (e.g. certain judicial-body decisions) use page layouts our
+      scraper couldn't fully parse yet — coverage here is best-effort, not guaranteed complete. Always
+      cross-check against <a href="https://www.the-aiff.com/documents" target="_blank" rel="noopener">AIFF's own Documents page</a>.
+    </p>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap"><p>Source: <a href="https://www.the-aiff.com/documents" target="_blank" rel="noopener">the-aiff.com/documents</a>. See <a href="about.html">Methodology</a>.</p></div></footer>
+
+<script src="assets/app.js"></script>
+<script>
+  let ALL_DOCS = [];
+
+  function render() {
+    const q = document.getElementById("q").value.trim().toLowerCase();
+    const cat = document.getElementById("category-filter").value;
+    const year = document.getElementById("year-filter").value;
+
+    const filtered = ALL_DOCS.filter(d => {
+      if (q && !d.title.toLowerCase().includes(q)) return false;
+      if (cat && d.category !== cat) return false;
+      if (year && d.year !== year) return false;
+      return true;
+    });
+
+    document.getElementById("result-count").textContent = `${filtered.length} of ${ALL_DOCS.length} documents`;
+
+    const rows = document.getElementById("doc-rows");
+    if (!filtered.length) {
+      rows.innerHTML = `<tr><td colspan="4"><div class="empty-state">No documents match.</div></td></tr>`;
+      return;
+    }
+    rows.innerHTML = filtered.map(d => `
+      <tr>
+        <td>${escapeHtml(d.title)}</td>
+        <td><span class="pill">${escapeHtml(d.category)}</span></td>
+        <td>${escapeHtml(d.year || "—")}</td>
+        <td><a href="${escapeHtml(d.file_url)}" target="_blank" rel="noopener">Open PDF ↗</a></td>
+      </tr>`).join("");
+  }
+
+  (async () => {
+    loadManifest("#last-updated");
+    try {
+      ALL_DOCS = await DATA.json("documents.json");
+      const cats = [...new Set(ALL_DOCS.map(d => d.category))].sort();
+      const years = [...new Set(ALL_DOCS.map(d => d.year).filter(Boolean))].sort().reverse();
+      const catSel = document.getElementById("category-filter");
+      cats.forEach(c => catSel.insertAdjacentHTML("beforeend", `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`));
+      const yearSel = document.getElementById("year-filter");
+      years.forEach(y => yearSel.insertAdjacentHTML("beforeend", `<option value="${escapeHtml(y)}">${escapeHtml(y)}</option>`));
+
+      document.getElementById("q").addEventListener("input", render);
+      catSel.addEventListener("change", render);
+      yearSel.addEventListener("change", render);
+      render();
+    } catch (e) {
+      document.getElementById("doc-rows").innerHTML = `<tr><td colspan="4"><div class="empty-state">Failed to load documents.json</div></td></tr>`;
+      console.error(e);
+    }
+  })();
+</script>

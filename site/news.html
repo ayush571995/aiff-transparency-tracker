@@ -1,0 +1,78 @@
+<title>News — Road to WC34</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A dated, linkable index of AIFF's own news announcements — refreshed daily.">
+<link rel="stylesheet" href="assets/style.css">
+
+<header class="site">
+  <div class="wrap">
+    <div class="brand">Road to WC34<small>AIFF Transparency Tracker</small></div>
+    <nav class="site">
+      <a href="index.html">Home</a>
+      <a href="documents.html">Documents</a>
+      <a href="news.html">News</a>
+      <a href="governance.html">Governance</a>
+      <a href="timeline.html">Timeline</a>
+      <a href="about.html">About &amp; Methodology</a>
+    </nav>
+  </div>
+</header>
+<div class="disclaimer-bar">
+  <div class="wrap">⚠️ <span>Titles, dates and links only — we don't reproduce AIFF's articles. Click through to read the original on AIFF's site.</span></div>
+</div>
+
+<main>
+  <div class="wrap">
+    <h1>News Feed</h1>
+    <p class="lede">Every article currently listed on AIFF's own news page, indexed with its category and date so it stays findable after it scrolls off their homepage.</p>
+    <div id="last-updated" class="badge-live">Loading last-updated info…</div>
+
+    <div class="controls">
+      <input type="search" id="q" placeholder="Search headlines…" aria-label="Search news">
+      <select id="category-filter" aria-label="Filter by category"><option value="">All categories</option></select>
+    </div>
+
+    <div id="news-list"><div class="loading-state">Loading…</div></div>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap"><p>Source: <a href="https://www.the-aiff.com/articles" target="_blank" rel="noopener">the-aiff.com/articles</a>. See <a href="about.html">Methodology</a>.</p></div></footer>
+
+<script src="assets/app.js"></script>
+<script>
+  let ALL_NEWS = [];
+  function render() {
+    const q = document.getElementById("q").value.trim().toLowerCase();
+    const cat = document.getElementById("category-filter").value;
+    const filtered = ALL_NEWS.filter(n => {
+      if (q && !n.title.toLowerCase().includes(q)) return false;
+      if (cat && n.category !== cat) return false;
+      return true;
+    });
+    const list = document.getElementById("news-list");
+    list.innerHTML = filtered.map(n => `
+      <div class="card">
+        <h3><a href="${escapeHtml(n.url)}" target="_blank" rel="noopener">${escapeHtml(n.title)}</a></h3>
+        <div class="meta-row">
+          ${n.category ? `<span class="pill">${escapeHtml(n.category)}</span>` : ""}
+          <span>${escapeHtml(n.date_text || "date unknown")}</span>
+        </div>
+      </div>`).join("") || `<div class="empty-state">No news matches.</div>`;
+  }
+
+  (async () => {
+    loadManifest("#last-updated");
+    try {
+      ALL_NEWS = await DATA.json("news.json");
+      const cats = [...new Set(ALL_NEWS.map(n => n.category).filter(Boolean))].sort();
+      const catSel = document.getElementById("category-filter");
+      cats.forEach(c => catSel.insertAdjacentHTML("beforeend", `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`));
+      document.getElementById("q").addEventListener("input", render);
+      catSel.addEventListener("change", render);
+      render();
+    } catch (e) {
+      document.getElementById("news-list").innerHTML = `<div class="empty-state">Failed to load news.json</div>`;
+      console.error(e);
+    }
+  })();
+</script>

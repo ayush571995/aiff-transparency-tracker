@@ -1,0 +1,57 @@
+<title>Governance — Road to WC34</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Who currently sits on AIFF's Executive Committee, sourced directly from AIFF's own site.">
+<link rel="stylesheet" href="assets/style.css">
+
+<header class="site">
+  <div class="wrap">
+    <div class="brand">Road to WC34<small>AIFF Transparency Tracker</small></div>
+    <nav class="site">
+      <a href="index.html">Home</a>
+      <a href="documents.html">Documents</a>
+      <a href="news.html">News</a>
+      <a href="governance.html">Governance</a>
+      <a href="timeline.html">Timeline</a>
+      <a href="about.html">About &amp; Methodology</a>
+    </nav>
+  </div>
+</header>
+<div class="disclaimer-bar">
+  <div class="wrap">⚠️ <span>Names, photos and roles are pulled from AIFF's own Executive Committee page. We don't make claims about individuals beyond what's cited on the Timeline page.</span></div>
+</div>
+
+<main>
+  <div class="wrap">
+    <h1>Who Runs AIFF</h1>
+    <p class="lede">The current Executive Committee, as published on AIFF's own site. This is the body ultimately accountable for the documents and decisions tracked elsewhere on this site.</p>
+    <div id="last-updated" class="badge-live">Loading last-updated info…</div>
+
+    <div id="people-grid" class="people-grid"><div class="loading-state">Loading…</div></div>
+
+    <h2>Related reading</h2>
+    <p>For the disputed corruption allegation against the sitting President and other governance history, see the <a href="timeline.html">full cited timeline</a>.</p>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap"><p>Source: <a href="https://www.the-aiff.com/executive-committees" target="_blank" rel="noopener">the-aiff.com/executive-committees</a>. See <a href="about.html">Methodology</a>.</p></div></footer>
+
+<script src="assets/app.js"></script>
+<script>
+  (async () => {
+    loadManifest("#last-updated");
+    try {
+      const gov = await DATA.json("governance.json");
+      const grid = document.getElementById("people-grid");
+      grid.innerHTML = gov.map(p => `
+        <div class="person">
+          ${p.photo_url ? `<img src="${escapeHtml(p.photo_url)}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.style.display='none'">` : ""}
+          <div class="name">${escapeHtml(p.name)}</div>
+          <div class="role">${escapeHtml(p.role || "")}</div>
+        </div>`).join("") || `<div class="empty-state">No governance data indexed yet.</div>`;
+    } catch (e) {
+      document.getElementById("people-grid").innerHTML = `<div class="empty-state">Failed to load governance.json</div>`;
+      console.error(e);
+    }
+  })();
+</script>

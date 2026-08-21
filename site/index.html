@@ -1,0 +1,137 @@
+<title>Road to WC34 — AIFF Transparency Tracker</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="An independent, citizen-run tracker indexing AIFF's own published documents, news and governance timeline — every item linked back to its source.">
+<link rel="stylesheet" href="assets/style.css">
+
+<header class="site">
+  <div class="wrap">
+    <div class="brand">Road to WC34<small>AIFF Transparency Tracker</small></div>
+    <nav class="site">
+      <a href="index.html">Home</a>
+      <a href="documents.html">Documents</a>
+      <a href="news.html">News</a>
+      <a href="governance.html">Governance</a>
+      <a href="timeline.html">Timeline</a>
+      <a href="about.html">About &amp; Methodology</a>
+    </nav>
+  </div>
+</header>
+<div class="disclaimer-bar">
+  <div class="wrap">
+    ⚠️ <span>Independent, non-commercial citizen project. Not affiliated with AIFF, FIFA, AFC, or the Government of India. Every figure and claim here links to a primary source — see <a href="about.html">Methodology</a>.</span>
+  </div>
+</div>
+
+<main>
+  <div class="wrap">
+    <h1>Tracking how Indian football is actually run</h1>
+    <p class="lede">
+      This site indexes what the All India Football Federation (AIFF) — the body that governs
+      Indian football and receives public/government recognition and funding — has itself published:
+      its audit reports, tenders, compliance filings, judicial decisions, news announcements and
+      office bearers. Nothing here is invented; every entry links to the original document or article.
+    </p>
+
+    <div id="last-updated" class="badge-live">Loading last-updated info…</div>
+
+    <div class="stats-row" id="stats-row">
+      <div class="stat-card"><div class="num">—</div><div class="lbl">Documents indexed</div></div>
+      <div class="stat-card"><div class="num">—</div><div class="lbl">News items indexed</div></div>
+      <div class="stat-card"><div class="num">—</div><div class="lbl">Exec. committee members</div></div>
+      <div class="stat-card"><div class="num">—</div><div class="lbl">Cited timeline events</div></div>
+    </div>
+
+    <h2>Latest AIFF-published documents</h2>
+    <div id="doc-preview"><div class="loading-state">Loading…</div></div>
+    <p><a href="documents.html">→ See all documents (audit reports, tenders &amp; RFPs, compliance filings)</a></p>
+
+    <h2>Latest news from AIFF's own site</h2>
+    <div id="news-preview"><div class="loading-state">Loading…</div></div>
+    <p><a href="news.html">→ See full news feed</a></p>
+
+    <h2>Recent governance timeline</h2>
+    <div id="timeline-preview"><div class="loading-state">Loading…</div></div>
+    <p><a href="timeline.html">→ See the full, cited governance timeline (2022–present)</a></p>
+
+    <h2>Why this exists</h2>
+    <div class="methodology-box">
+      <p>
+        AIFF is recognised by the Government of India as the National Sports Federation for
+        football and receives government support, which is why its governance and spending are
+        a matter of public interest — comparable to how the CAG, RTI, and public accountability
+        norms apply to publicly funded bodies. This tracker doesn't accuse anyone of anything
+        beyond what a cited, dated source already says. It just makes AIFF's own disclosures —
+        and independent reporting about it — easier to find, search and follow over time.
+      </p>
+      <p><a href="about.html">Read the full methodology, sourcing policy and how to report an error →</a></p>
+    </div>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>Built by an independent Indian football fan/developer. This is not a news outlet — it is an index of public documents and reporting, refreshed daily. Found an error or a broken source link? See <a href="about.html">About</a> for how to flag it.</p>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+<script>
+  (async () => {
+    loadManifest("#last-updated");
+    try {
+      const [docs, news, gov, timeline, manifest] = await Promise.all([
+        DATA.json("documents.json"),
+        DATA.json("news.json"),
+        DATA.json("governance.json"),
+        DATA.json("timeline.json"),
+        DATA.json("manifest.json").catch(() => null),
+      ]);
+
+      const statCards = document.querySelectorAll("#stats-row .stat-card .num");
+      statCards[0].textContent = docs.length;
+      statCards[1].textContent = news.length;
+      statCards[2].textContent = gov.length;
+      statCards[3].textContent = timeline.length;
+
+      const docPreview = document.getElementById("doc-preview");
+      docPreview.innerHTML = docs.slice(0, 5).map(d => `
+        <div class="card">
+          <h3><a href="${escapeHtml(d.file_url)}" target="_blank" rel="noopener">${escapeHtml(d.title)}</a></h3>
+          <div class="meta-row">
+            <span class="pill">${escapeHtml(d.category)}</span>
+            ${d.year ? `<span class="pill">${escapeHtml(d.year)}</span>` : ""}
+            <a href="${escapeHtml(d.source_page)}" target="_blank" rel="noopener">source page ↗</a>
+          </div>
+        </div>`).join("") || `<div class="empty-state">No documents indexed yet.</div>`;
+
+      const newsPreview = document.getElementById("news-preview");
+      newsPreview.innerHTML = news.slice(0, 5).map(n => `
+        <div class="card">
+          <h3><a href="${escapeHtml(n.url)}" target="_blank" rel="noopener">${escapeHtml(n.title)}</a></h3>
+          <div class="meta-row">
+            ${n.category ? `<span class="pill">${escapeHtml(n.category)}</span>` : ""}
+            <span>${escapeHtml(n.date_text || "")}</span>
+          </div>
+        </div>`).join("") || `<div class="empty-state">No news indexed yet.</div>`;
+
+      const tlPreview = document.getElementById("timeline-preview");
+      const recent = [...timeline].sort((a,b) => (a.date < b.date ? 1 : -1)).slice(0, 3);
+      tlPreview.innerHTML = recent.map(t => `
+        <div class="card">
+          <div class="date">${escapeHtml(t.date)}</div>
+          <h3>${escapeHtml(t.title)}</h3>
+          <p>${escapeHtml(t.summary)}</p>
+          <div class="meta-row">
+            <span class="pill ${statusPillClass(t.status)}">${escapeHtml(t.status)}</span>
+            <span class="pill">${escapeHtml(t.category)}</span>
+          </div>
+          <ul class="source-list">
+            ${t.sources.map(s => `<li><a href="${escapeHtml(s.url)}" target="_blank" rel="noopener">${escapeHtml(s.label)}</a></li>`).join("")}
+          </ul>
+        </div>`).join("");
+    } catch (e) {
+      console.error(e);
+    }
+  })();
+</script>

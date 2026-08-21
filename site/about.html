@@ -1,0 +1,90 @@
+<title>About &amp; Methodology — Road to WC34</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Who runs this tracker, how data is sourced and verified, and how to report an error.">
+<link rel="stylesheet" href="assets/style.css">
+
+<header class="site">
+  <div class="wrap">
+    <div class="brand">Road to WC34<small>AIFF Transparency Tracker</small></div>
+    <nav class="site">
+      <a href="index.html">Home</a>
+      <a href="documents.html">Documents</a>
+      <a href="news.html">News</a>
+      <a href="governance.html">Governance</a>
+      <a href="timeline.html">Timeline</a>
+      <a href="about.html">About &amp; Methodology</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <h1>About &amp; Methodology</h1>
+
+    <div class="methodology-box">
+      <h3>What this is</h3>
+      <p>An independent, non-commercial index of information the All India Football Federation (AIFF)
+      has already published on its own website (<a href="https://www.the-aiff.com" target="_blank" rel="noopener">the-aiff.com</a>),
+      plus a hand-curated, cited timeline of governance events drawn from independent news reporting.
+      It exists because AIFF's own site buries this material in nested pages that are hard to search,
+      compare over time, or link to directly.</p>
+    </div>
+
+    <div class="methodology-box">
+      <h3>What this is <em>not</em></h3>
+      <ul>
+        <li>Not affiliated with, endorsed by, or run by AIFF, FIFA, AFC, or any government body.</li>
+        <li>Not a news outlet — we don't reproduce full articles; every news entry links out to the original.</li>
+        <li>Not a claim of wrongdoing beyond what a cited, dated source already states. Allegations are
+        labelled as allegations (see the <strong>status</strong> field on Timeline entries) — several are
+        explicitly disputed or denied by the person involved, and we say so.</li>
+        <li>Not comprehensive. The scraper covers what AIFF's site structure allows us to parse
+        automatically; some sub-sections aren't fully machine-readable yet (noted on the Documents page).</li>
+      </ul>
+    </div>
+
+    <div class="methodology-box">
+      <h3>How the data is produced</h3>
+      <p><strong>Documents, News, Governance pages</strong> — refreshed automatically, daily, by a script
+      that fetches AIFF's own public pages and extracts structured records (title, date/year, category,
+      and a direct link to the original PDF or article). No text is invented or summarized by a model;
+      it's parsed directly from AIFF's HTML. Every record carries a <code>source_url</code> and a
+      <code>scraped_at</code> timestamp.</p>
+      <p><strong>Timeline page</strong> — compiled by hand from published news reporting (Scroll.in, ESPN,
+      Business Standard, EastMojo, The Week, Khel Now, Tribune India, The Bridge, and similar outlets — see
+      each entry's own citations). Each entry links to the specific article(s) it's drawn from. This page is
+      updated periodically as new, verifiable developments happen — not scraped automatically, precisely
+      because judgment calls about what's newsworthy and how to phrase disputed claims need a human,
+      not a bot.</p>
+    </div>
+
+    <div class="methodology-box">
+      <h3>Why AIFF is fair game for a public tracker</h3>
+      <p>AIFF is recognised by the Government of India as the National Sports Federation for football,
+      operates under a constitution that has been the subject of repeated Supreme Court intervention, and
+      its accounts have been the subject of a CAG (Comptroller &amp; Auditor General) audit process per
+      contemporaneous news reporting. Bodies that draw on public recognition, public infrastructure and
+      (per National Sports Federation norms) public funding are legitimately subject to public scrutiny —
+      the same principle behind RTI applying to substantially government-funded bodies.</p>
+    </div>
+
+    <div class="methodology-box">
+      <h3>Corrections &amp; feedback</h3>
+      <p>Found a broken link, a mis-scraped title, an outdated timeline entry, or a factual error? This
+      project is open-source — open an issue or pull request on the GitHub repository (link on the
+      homepage once published), or reach the maintainer through the repository's contact details.
+      Corrections are treated as seriously as new entries: getting AIFF's own numbers right is the entire
+      point of this project.</p>
+    </div>
+
+    <div class="methodology-box">
+      <h3>License</h3>
+      <p>Site code: MIT license. Scraped data is a factual index of AIFF's own public disclosures with
+      links back to the originals — we assert no ownership over AIFF's documents or news content, and
+      encourage anyone to verify directly at the source.</p>
+    </div>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap"><p>Independent citizen project. Not affiliated with AIFF, FIFA, AFC, or the Government of India.</p></div></footer>
