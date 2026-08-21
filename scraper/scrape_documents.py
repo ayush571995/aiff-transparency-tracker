@@ -15,6 +15,32 @@ import urllib.parse
 from common import BASE_URL, get_soup, guess_year, now_iso, write_json
 
 
+# Keyword -> spending-purpose tag, applied to Tenders & RFPs titles so visitors can see
+# *what kind* of thing AIFF is spending on, even though AIFF doesn't publish a per-contract
+# "amount actually paid" ledger anywhere (that gap is called out explicitly on the site).
+PURPOSE_KEYWORDS = [
+    ("Media & Broadcasting Rights", ["media right", "broadcast", "streaming", "ott"]),
+    ("Sponsorship & Commercial", ["sponsorship", "commercial partner", "brand"]),
+    ("Catering & Hospitality", ["catering", "food service", "hospitality"]),
+    ("Digital & Social Media", ["digital media", "social media", "website", "app development"]),
+    ("Stadium & Venue Operations", ["stadium operations", "venue", "turf", "pitch"]),
+    ("Ticketing", ["ticketing"]),
+    ("Coaching, Academy & Talent", ["academy", "coaching", "talent", "nce", "scouting"]),
+    ("Kit, Footballs & Equipment", ["football", "kit", "jersey", "equipment", "apparel"]),
+    ("Travel & Logistics", ["travel", "logistics", "transport", "accommodation", "hotel"]),
+    ("Security", ["security"]),
+    ("Printing & Merchandise", ["merchandise", "printing"]),
+]
+
+
+def classify_purpose(title: str) -> str:
+    t = title.lower()
+    for label, keywords in PURPOSE_KEYWORDS:
+        if any(k in t for k in keywords):
+            return label
+    return "Other / Uncategorized"
+
+
 def prettify_filename(href: str) -> str:
     """Fallback title when the link has no visible text: turn a filename into
     a readable title, e.g. 'Financial-2023-24.pdf' -> 'Financial 2023 24'."""
@@ -50,11 +76,13 @@ def scrape_section(path: str, label: str) -> list[dict]:
             # icon-only link; the sibling text link (same href) will supply the title later
             title = ""
         if href not in records or not records[href]["title"]:
+            final_title = title or prettify_filename(href)
             records[href] = {
-                "title": title or prettify_filename(href),
+                "title": final_title,
                 "file_url": href,
                 "year": guess_year(title) or guess_year(href),
                 "category": label,
+                "purpose_tag": classify_purpose(final_title) if label == "Tenders & RFPs" else None,
                 "source_page": f"{BASE_URL}{path}",
             }
 

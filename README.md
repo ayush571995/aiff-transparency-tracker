@@ -1,4 +1,4 @@
-# Road to WC34 — AIFF Transparency Tracker
+# RoadTo FIFA WC — AIFF Transparency Tracker
 
 An independent, non-commercial index of what the All India Football Federation (AIFF) has
 already published on its own website — audit reports, tenders & RFPs, compliance filings,
@@ -7,6 +7,15 @@ link to. Plus a hand-curated, fully-cited timeline of AIFF governance events sin
 
 **Not affiliated with AIFF, FIFA, AFC, or the Government of India.** See [`site/about.html`](site/about.html)
 for the full methodology, sourcing policy, and how to flag a correction.
+
+## Pages
+
+`index` (home) · `today` (daily changelog) · `news` · `documents` (audit reports, tenders/RFPs,
+judicial decisions, compliance filings) · `financials` (real audited income/expenditure by fiscal
+year, spending-purpose breakdown, RTI request generator) · `governance` (Executive Committee) ·
+`conduct` (legal/regulatory framework AIFF operates under) · `timeline` (cited governance history)
+· `legal` (editorial policy, sourcing standard, disclaimer, corrections process) · `about`
+(methodology).
 
 ## How it's built
 

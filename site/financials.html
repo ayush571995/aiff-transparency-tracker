@@ -1,0 +1,218 @@
+<title>Financial Audits — RoadTo FIFA WC</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="AIFF's actual audited income, expenditure and surplus/deficit by fiscal year, transcribed from its own published audit reports — plus where the gaps in public disclosure are.">
+<link rel="stylesheet" href="assets/style.css">
+
+<header class="site">
+  <div class="wrap">
+    <div class="brand">RoadTo FIFA WC<small>AIFF Transparency Tracker</small></div>
+    <nav class="site">
+      <a href="index.html">Home</a>
+      <a href="today.html">Today</a>
+      <a href="news.html">News</a>
+      <a href="documents.html">Documents</a>
+      <a href="financials.html">Financials</a>
+      <a href="governance.html">Governance</a>
+      <a href="conduct.html">Conduct &amp; Rules</a>
+      <a href="timeline.html">Timeline</a>
+      <a href="legal.html">Legal</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+<div class="disclaimer-bar">
+  <div class="wrap">⚠️ <span>Every figure below is manually transcribed from AIFF's own audited financial statements, cross-checked against the comparative column of the following year's report. We link the exact source PDF for every number — verify it yourself.</span></div>
+</div>
+
+<main>
+  <div class="wrap">
+    <h1>Financial Audits &amp; Spending</h1>
+    <p class="lede">
+      What AIFF actually reported earning and spending, fiscal year by fiscal year (1 April – 31 March),
+      straight from its own chartered-accountant-audited statements. AIFF does not publish month-by-month
+      spending anywhere, and no statement for FY2025-26 exists yet — see the honesty note below before you
+      read the table.
+    </p>
+
+    <div class="methodology-box" id="honesty-note">
+      <h3>⚠️ What we can and can't show you</h3>
+      <ul>
+        <li><strong>No month-by-month data exists.</strong> AIFF discloses finances annually, not monthly.
+        Any site claiming a monthly AIFF spending chart is presenting numbers nobody has published.</li>
+        <li><strong>Nothing for FY2025-26 (Apr 2025 – Mar 2026) is published yet.</strong> Audit reports
+        typically land 6-10 months after fiscal year-end; the FY2024-25 report itself was only signed
+        30 Sep 2025, six months after that year closed.</li>
+        <li><strong>Line items aren't published per-contract.</strong> AIFF's income/expenditure statement
+        groups spending into a handful of categories (e.g. "Tournament camps and other expenses" — one
+        number covering an entire year of activity). It does not disclose what was paid to which vendor,
+        for what, or when.</li>
+        <li><strong>What tenders/RFPs tell you (and what they don't):</strong> the "Where the money is
+        directed" section below shows what AIFF is <em>procuring</em> — sourced from its own published
+        tender documents — but AIFF generally does not publish the value it actually pays out per contract.
+        Use the <a href="#rti-tool">RTI request tool</a> below to formally ask for that.</li>
+      </ul>
+    </div>
+
+    <h2>Income, Expenditure &amp; Surplus/Deficit by Fiscal Year</h2>
+    <div id="last-updated" class="badge-live"></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Fiscal Year</th><th>Total Income</th><th>Total Expenditure</th><th>Surplus / (Deficit)</th><th>Audit Opinion</th><th>Source</th></tr></thead>
+        <tbody id="fy-rows"><tr><td colspan="6" class="loading-state">Loading…</td></tr></tbody>
+      </table>
+    </div>
+    <div id="fy-detail"></div>
+
+    <h2>Notable line items</h2>
+    <div id="notable-items"><div class="loading-state">Loading…</div></div>
+
+    <h2>Where the money is directed — spending purpose, from AIFF's own tenders &amp; RFPs</h2>
+    <p class="lede">Every one of AIFF's published tenders/RFPs, auto-classified by what it's procuring (not how much was paid — see note above). Click a category to see the underlying documents.</p>
+    <div id="purpose-breakdown"><div class="loading-state">Loading…</div></div>
+
+    <h2 id="rti-tool">Ask AIFF directly: RTI request generator</h2>
+    <p class="lede">
+      AIFF receives government recognition and funding and, per the National Sports Development Code 2011
+      and the National Sports Governance Act 2025, federations meeting the funding threshold are "public
+      authorities" under the Right to Information Act, 2005 — meaning you can formally request records they
+      haven't voluntarily published. Pick what you want to ask about; this generates a ready-to-send RTI
+      application draft. See <a href="conduct.html">Conduct &amp; Rules</a> for the legal basis.
+    </p>
+    <div class="card">
+      <label for="rti-subject" style="font-weight:600;font-size:0.9rem;">What do you want an itemized breakdown of?</label><br>
+      <select id="rti-subject" style="margin-top:8px;min-width:280px;"></select>
+      <div style="margin-top:14px;">
+        <textarea id="rti-draft" rows="14" readonly style="width:100%;font-family:ui-monospace,Consolas,monospace;font-size:0.82rem;background:var(--code-bg);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:12px;"></textarea>
+      </div>
+      <p style="font-size:0.8rem;color:var(--text-muted);margin-top:8px;">
+        This is a starting draft, not legal advice — fill in your details, attach the prescribed RTI fee
+        (as specified by AIFF's Central Public Information Officer / CPIO), and send it yourself. We don't
+        submit anything on your behalf.
+      </p>
+    </div>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap"><p>Sources: AIFF's own published audit reports and tenders/RFPs, linked per figure above. See <a href="about.html">Methodology</a> and <a href="legal.html">Legal</a>.</p></div></footer>
+
+<script src="assets/app.js"></script>
+<script>
+  function fmtRupees(n) {
+    const isNeg = n < 0;
+    const abs = Math.abs(n);
+    const crore = abs / 1e7;
+    const str = `₹${crore.toLocaleString("en-IN", {maximumFractionDigits: 2})} crore`;
+    return isNeg ? `(${str})` : str;
+  }
+
+  (async () => {
+    try {
+      const [fin, docs, manifest] = await Promise.all([
+        DATA.json("financials.json"),
+        DATA.json("documents.json"),
+        DATA.json("manifest.json").catch(() => null),
+      ]);
+      if (manifest) {
+        document.getElementById("last-updated").innerHTML = `<span class="dot"></span> Documents index last refreshed ${fmtDate(manifest.last_updated)}. Financial figures below are curated, not auto-scraped — see dates per source.`;
+      }
+
+      // FY table
+      const rows = document.getElementById("fy-rows");
+      rows.innerHTML = fin.fiscal_years.map(fy => `
+        <tr>
+          <td><strong>FY ${escapeHtml(fy.fy)}</strong><br><span style="color:var(--text-muted);font-size:0.78rem;">${escapeHtml(fy.period)}</span></td>
+          <td>${fmtRupees(fy.total_income)}</td>
+          <td>${fmtRupees(fy.total_expenditure)}</td>
+          <td style="color:${fy.surplus_deficit < 0 ? 'var(--danger)' : 'inherit'};font-weight:700;">${fmtRupees(fy.surplus_deficit)} ${fy.surplus_deficit_label}</td>
+          <td><span class="pill ${fy.audit_opinion.toLowerCase().includes('disclaimer') ? 'status-disputed' : ''}">${escapeHtml(fy.audit_opinion.split('—')[0].trim())}</span></td>
+          <td><a href="${escapeHtml(fy.source_pdf)}" target="_blank" rel="noopener">PDF ↗</a></td>
+        </tr>`).join("");
+
+      const detailed = fin.fiscal_years.filter(fy => fy.audit_opinion_detail);
+      document.getElementById("fy-detail").innerHTML = detailed.map(fy => `
+        <div class="card">
+          <h3>FY ${escapeHtml(fy.fy)} — audit opinion detail</h3>
+          <p>${escapeHtml(fy.audit_opinion_detail)}</p>
+          <div class="meta-row"><a href="${escapeHtml(fy.source_pdf)}" target="_blank" rel="noopener">${escapeHtml(fy.source_note)} ↗</a></div>
+        </div>`).join("");
+
+      document.getElementById("notable-items").innerHTML = fin.notable_line_items.map(it => `
+        <div class="card">
+          <h3>${escapeHtml(it.label)} <span class="pill">FY ${escapeHtml(it.fy)}</span></h3>
+          <p><strong>${fmtRupees(it.amount)}</strong> — ${escapeHtml(it.note)}</p>
+          <div class="meta-row"><a href="${escapeHtml(it.source_pdf)}" target="_blank" rel="noopener">source ↗</a></div>
+        </div>`).join("");
+
+      document.getElementById("honesty-note").insertAdjacentHTML("beforeend", `<p style="font-size:0.8rem;color:var(--text-muted);margin-top:10px;">${escapeHtml(fin.note)}</p>`);
+
+      // Purpose breakdown from tenders
+      const tenders = docs.filter(d => d.category === "Tenders & RFPs" && d.purpose_tag);
+      const byPurpose = {};
+      tenders.forEach(t => { (byPurpose[t.purpose_tag] ||= []).push(t); });
+      const purposeDiv = document.getElementById("purpose-breakdown");
+      purposeDiv.innerHTML = Object.entries(byPurpose)
+        .sort((a, b) => b[1].length - a[1].length)
+        .map(([purpose, items]) => `
+          <details class="card">
+            <summary style="cursor:pointer;font-weight:700;">${escapeHtml(purpose)} — ${items.length} document${items.length === 1 ? "" : "s"}</summary>
+            <ul class="source-list" style="margin-top:10px;">
+              ${items.slice(0, 25).map(i => `<li><a href="${escapeHtml(i.file_url)}" target="_blank" rel="noopener">${escapeHtml(i.title)}</a> ${i.year ? `<span class="pill">${escapeHtml(i.year)}</span>` : ""}</li>`).join("")}
+              ${items.length > 25 ? `<li>…and ${items.length - 25} more — see <a href="documents.html">Documents</a> and filter by "Tenders & RFPs".</li>` : ""}
+            </ul>
+          </details>`).join("") || `<div class="empty-state">No tender data indexed yet.</div>`;
+
+      // RTI generator
+      const subjects = [
+        { label: "Total amount actually paid under FY2024-25 'Tournament camps and other expenses' (₹63.7cr line item) — vendor-level breakup", fy: "2024-25", topic: "the vendor-wise/activity-wise breakup of the ₹63,74,87,221 booked under 'Tournament camps and other expenses' for FY2024-25" },
+        { label: "Status of the CAG audit inspection report (FY2008-09 to FY2020-21) referenced in the FY2022-23 audit report", fy: "2022-23", topic: "the current status and outcome of the Comptroller & Auditor General (CAG) audit inspection report covering FY2008-09 to FY2020-21, referenced in Note 39 of AIFF's FY2022-23 audited financial statements" },
+        { label: "Status of the Deloitte forensic audit (April 2017 - May 2022) referenced in the FY2022-23 audit report", fy: "2022-23", topic: "the current status, findings, and any public version of the Deloitte Touche Tohmatsu India LLP forensic audit report covering April 2017 to May 2022, referenced in Note 38 of AIFF's FY2022-23 audited financial statements" },
+        { label: "Amounts awarded and actually paid under the 2026-27 ISL Media Rights RFP", fy: "2026-27", topic: "the final awarded value and actual amounts paid to date under the 'RFP for the Grant of Media Rights Relating to the Indian Super League for up to Four (4) Seasons Commencing from the 2026-27 Season'" },
+        { label: "Total Sports Authority of India (SAI) grant claims and reimbursements received, FY2022-23 to present", fy: "2022-23–present", topic: "the total amount claimed from and reimbursed by the Sports Authority of India (SAI) for foreign events and foreign coaches' salaries each year from FY2022-23 to the present, including resolution of the ₹1.78 crore claim referenced in Note 41-42 of the FY2022-23 audited financial statements" },
+      ];
+      const sel = document.getElementById("rti-subject");
+      sel.innerHTML = subjects.map((s, i) => `<option value="${i}">${escapeHtml(s.label)}</option>`).join("");
+
+      function renderDraft() {
+        const s = subjects[sel.value];
+        const draft = `To,
+The Central Public Information Officer (CPIO)
+All India Football Federation
+Football House, Dwarka, New Delhi - 110075
+
+Subject: Request for information under the Right to Information Act, 2005
+
+Sir/Madam,
+
+Under Section 6(1) of the Right to Information Act, 2005, I request the following information
+regarding ${s.topic}:
+
+1. An itemized, dated breakup of the relevant amounts, including recipient/vendor names where
+   applicable, and the specific purpose of each payment.
+2. Copies of any relevant board/committee resolutions authorising the above.
+3. Copies of any relevant contracts, work orders, or sanction letters.
+
+I understand AIFF, as a National Sports Federation recognised by the Government of India and in
+receipt of government funding, is a "public authority" under Section 2(h) of the RTI Act, 2005
+per the National Sports Development Code, 2011 and the National Sports Governance Act, 2025.
+
+I am enclosing the prescribed RTI application fee of Rs. 10 (or as currently specified by AIFF's
+CPIO) via [payment method].
+
+Please provide the information within 30 days as mandated under Section 7(1) of the RTI Act.
+
+Yours faithfully,
+[Your Name]
+[Your Address]
+[Your Phone/Email]
+[Date]`;
+        document.getElementById("rti-draft").value = draft;
+      }
+      sel.addEventListener("change", renderDraft);
+      renderDraft();
+    } catch (e) {
+      console.error(e);
+      document.getElementById("fy-rows").innerHTML = `<tr><td colspan="6"><div class="empty-state">Failed to load financials.json</div></td></tr>`;
+    }
+  })();
+</script>

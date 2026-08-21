@@ -1,0 +1,80 @@
+{
+  "note": "Figures below are manually transcribed from AIFF's own published, chartered-accountant-audited financial statements (linked per year). We cross-checked each year's numbers against the comparative column in the following year's report where available — all figures below reconcile internally. Line-item categories are not perfectly comparable year-to-year because AIFF's accounting presentation format changed (older years show a 'General Fund' format; FY2023-24 onward shows an Ind AS / NPO Funds format) — see methodology note. AIFF discloses finances annually (fiscal year April-March), not monthly — there is no public month-by-month spending record for AIFF, so none is shown here. As of this page's last update, no financial statement for FY2025-26 (April 2025-March 2026) has been published; AIFF's audit reports typically appear 6-10 months after fiscal year-end.",
+  "fiscal_years": [
+    {
+      "fy": "2021-22",
+      "period": "1 Apr 2021 - 31 Mar 2022",
+      "total_income": 805840001,
+      "total_expenditure": 633592358,
+      "surplus_deficit": 162698268,
+      "surplus_deficit_label": "Surplus",
+      "audit_opinion": "Not separately reviewed by us for this year (comparative column only)",
+      "source_pdf": "https://the-aiff.com/media/uploads/2024/03/AIFF-Audit-Report-FY-2022-23.pdf",
+      "source_note": "Comparative column, Income & Expenditure Account, AIFF FY2022-23 Audit Report, page 6"
+    },
+    {
+      "fy": "2022-23",
+      "period": "1 Apr 2022 - 31 Mar 2023",
+      "total_income": 1377465949,
+      "total_expenditure": 1524701649,
+      "surplus_deficit": -148125545,
+      "surplus_deficit_label": "Deficit",
+      "audit_opinion": "Disclaimer of Opinion — auditors state they \"do not express an opinion on the financial statements\"",
+      "audit_opinion_detail": "SARC & Associates (Chartered Accountants) issued a Disclaimer of Opinion, citing: (a) a Deloitte forensic audit of AIFF's books for April 2017-May 2022, ordered by the Supreme Court-appointed Committee of Administrators, submitted in sealed cover to the amicus curiae and still sub judice; (b) a CAG (Comptroller & Auditor General) audit of AIFF's books covering FY2008-09 to FY2020-21, with AIFF still filing its reply at the time of signing; (c) AIFF having claimed Rs 1.78 crore in expense reimbursements from the Sports Authority of India for foreign events/foreign coaches' salaries, which auditors could not verify given no update on claim status. The report also separately notes (Qualified Opinion basis) that no balance confirmations were received from sundry debtors/creditors.",
+      "source_pdf": "https://the-aiff.com/media/uploads/2024/03/AIFF-Audit-Report-FY-2022-23.pdf",
+      "source_note": "Independent Auditors' Report pages 1-2, and Income & Expenditure Account page 6, AIFF FY2022-23 Audit Report (signed 8 Nov 2023)"
+    },
+    {
+      "fy": "2023-24",
+      "period": "1 Apr 2023 - 31 Mar 2024",
+      "total_income": 1104582373,
+      "total_expenditure": 1089394961,
+      "surplus_deficit": 15187413,
+      "surplus_deficit_label": "Surplus",
+      "audit_opinion": "Not separately reviewed by us for this year (comparative column only) — see FY2024-25 report for the standalone FY2023-24 statement if you want the original, not the comparative",
+      "source_pdf": "https://the-aiff.com/media/uploads/2025/10/AIFF-Audit-Report-–-FY-–-2024-25.pdf",
+      "source_note": "Comparative column, Income & Expenditure Account, AIFF FY2024-25 Audit Report, page 5"
+    },
+    {
+      "fy": "2024-25",
+      "period": "1 Apr 2024 - 31 Mar 2025",
+      "total_income": 1012459246,
+      "total_expenditure": 827914120,
+      "surplus_deficit": 184545226,
+      "surplus_deficit_label": "Surplus",
+      "audit_opinion": "Not independently confirmed by us (auditor's opinion section not yet reviewed) — verify directly against the source PDF's Independent Auditors' Report pages",
+      "source_pdf": "https://the-aiff.com/media/uploads/2025/10/AIFF-Audit-Report-–-FY-–-2024-25.pdf",
+      "source_note": "Balance Sheet page 4 and Income & Expenditure Account page 5, AIFF FY2024-25 Audit Report (signed 30 Sep 2025)"
+    }
+  ],
+  "notable_line_items": [
+    {
+      "fy": "2022-23",
+      "label": "Tournament camps and other expenses",
+      "amount": 1208201297,
+      "note": "Single largest expenditure line that year (about 79% of total expenditure).",
+      "source_pdf": "https://the-aiff.com/media/uploads/2024/03/AIFF-Audit-Report-FY-2022-23.pdf"
+    },
+    {
+      "fy": "2024-25",
+      "label": "Tournament camps and other expenses",
+      "amount": 637487221,
+      "note": "Same line item roughly halved versus FY2022-23 in absolute terms.",
+      "source_pdf": "https://the-aiff.com/media/uploads/2025/10/AIFF-Audit-Report-–-FY-–-2024-25.pdf"
+    },
+    {
+      "fy": "2024-25",
+      "label": "Income from grant of Master Rights, sponsorship, fee and levies",
+      "amount": 740876189,
+      "note": "AIFF's largest single income source that year — this is substantially the FSDL/ISL commercial relationship that collapsed a few months later, in July 2025. See Timeline.",
+      "source_pdf": "https://the-aiff.com/media/uploads/2025/10/AIFF-Audit-Report-–-FY-–-2024-25.pdf"
+    },
+    {
+      "fy": "2026",
+      "label": "ISL 2026 central-pool budget (post-FSDL financial model)",
+      "amount": 242600000,
+      "note": "Reported new financial structure replacing the FSDL commercial arrangement after the Master Rights Agreement lapsed; clubs pay a reduced ~Rs 1 crore participation fee each. This is a news-reported figure, not yet reflected in any audited AIFF financial statement.",
+      "source_pdf": "https://www.theweek.in/news/sports/2026/01/13/all-decks-cleared-for-isl-2026-a-look-at-where-things-stand.html"
+    }
+  ]
+}

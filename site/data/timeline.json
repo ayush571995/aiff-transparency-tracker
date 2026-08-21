@@ -114,6 +114,36 @@
     ]
   },
   {
+    "date": "2023-11-08",
+    "title": "Auditors issue a Disclaimer of Opinion on AIFF's FY2022-23 accounts",
+    "category": "Financial Oversight",
+    "summary": "SARC & Associates (Chartered Accountants) signed AIFF's FY2022-23 audit report with a Disclaimer of Opinion — the strongest form of audit qualification, meaning they state they \"do not express an opinion on the financial statements.\" Cited reasons: (1) a Deloitte forensic audit of AIFF's books for April 2017-May 2022, ordered by the Supreme Court-appointed Committee of Administrators, submitted in sealed cover to the Court's amicus curiae and still sub judice at the time of signing; (2) a CAG (Comptroller & Auditor General) audit covering AIFF's accounts from FY2008-09 to FY2020-21, with AIFF still filing its reply; (3) AIFF having claimed Rs 1.78 crore in reimbursements from the Sports Authority of India for foreign events/coaches that auditors could not verify the status of. The same year's accounts also show a reported deficit of roughly Rs 14.8 crore. This is a primary document, not secondary reporting — read it yourself via the source link.",
+    "status": "primary source — AIFF's own audited financial statement",
+    "sources": [
+      {"label": "AIFF FY2022-23 Audit Report (PDF, see pages 1-2 and 6) — hosted on AIFF's own site", "url": "https://the-aiff.com/media/uploads/2024/03/AIFF-Audit-Report-FY-2022-23.pdf"}
+    ]
+  },
+  {
+    "date": "2025-08-18",
+    "title": "National Sports Governance Act, 2025 takes effect",
+    "category": "Governance & Legal",
+    "summary": "A new statutory framework for Indian sports federations came into force, replacing the older administrative National Sports Code (2011) with law. It creates a National Sports Board (recognition authority), a National Sports Tribunal (chaired by a sitting/retired Chief Justice, appeals go straight to the Supreme Court), and requires every federation to run an Athletes Committee, Ethics Committee and Dispute Resolution Committee. Federations receiving government funding become RTI \"public authorities\" and their accounts become subject to CAG audit with reports to Parliament. This directly applies to AIFF as India's recognised football NSF.",
+    "status": "reported / primary legislation",
+    "sources": [
+      {"label": "The IP Press — Reforming the Rules of the Game: A Legal Analysis of the National Sports Governance Act, 2025", "url": "https://www.theippress.com/2025/09/12/reforming-the-rules-of-the-game-a-legal-analysis-of-the-national-sports-governance-act-2025/"}
+    ]
+  },
+  {
+    "date": "2025-09-19",
+    "title": "Supreme Court approves AIFF's new constitution",
+    "category": "Governance & Legal",
+    "summary": "The Supreme Court approved AIFF's draft constitution (developed via the earlier Committee of Administrators/Ombudsmen process) and directed AIFF to formally adopt it within 4 weeks via a special general body meeting. Key changes: 15 eminent players added to the General Body (elected state associations retain over 62% control), athlete eligibility to stand loosened to 5 international caps for men / 2 for women, Vice Presidents increased from 2 to 3 (one must be a woman), Executive Committee capped at 15 members, disqualification standard tightened from mere \"framing of charge\" to \"conviction followed by imprisonment,\" and the Executive Committee elected in September 2022 was confirmed to continue under the new constitution rather than face fresh elections immediately.",
+    "status": "reported",
+    "sources": [
+      {"label": "SCC Online — Inside Supreme Court's verdict approving the Draft Constitution of AIFF", "url": "https://www.scconline.com/blog/post/2025/09/22/supreme-court-approves-draft-constitution-of-all-india-football-federation/"}
+    ]
+  },
+  {
     "date": "2025",
     "title": "AIFF constitution / election-timing case before the Supreme Court (Rahul Mehra matter)",
     "category": "Governance & Legal",

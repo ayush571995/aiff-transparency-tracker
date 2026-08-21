@@ -45,7 +45,7 @@ Alternatively, without Bicep, the one-liner (also prompts for GitHub auth):
 
 ```powershell
 az staticwebapp create `
-  --name road-to-wc34-aiff-tracker `
+  --name roadto-fifa-wc-aiff-tracker `
   --resource-group rg-aiff-tracker `
   --source "https://github.com/<your-username>/aiff-transparency-tracker" `
   --location centralus `
@@ -66,7 +66,7 @@ To create it *without* auto-linking (recommended, matches our workflow):
 
 ```powershell
 az staticwebapp create `
-  --name road-to-wc34-aiff-tracker `
+  --name roadto-fifa-wc-aiff-tracker `
   --resource-group rg-aiff-tracker `
   --location centralus `
   --sku Free
@@ -76,7 +76,7 @@ az staticwebapp create `
 
 ```powershell
 az staticwebapp secrets list `
-  --name road-to-wc34-aiff-tracker `
+  --name roadto-fifa-wc-aiff-tracker `
   --resource-group rg-aiff-tracker `
   --query "properties.apiKey" -o tsv
 ```
@@ -91,7 +91,7 @@ Push to `main` (or re-run the "Deploy to Azure Static Web Apps" workflow from th
 
 ```powershell
 az staticwebapp show `
-  --name road-to-wc34-aiff-tracker `
+  --name roadto-fifa-wc-aiff-tracker `
   --resource-group rg-aiff-tracker `
   --query "defaultHostname" -o tsv
 ```
@@ -106,7 +106,7 @@ Once you've bought the domain from a registrar (Namecheap, GoDaddy, Cloudflare, 
 
 ```powershell
 az staticwebapp hostname set `
-  --name road-to-wc34-aiff-tracker `
+  --name roadto-fifa-wc-aiff-tracker `
   --resource-group rg-aiff-tracker `
   --hostname roadtowc34football.com
 ```

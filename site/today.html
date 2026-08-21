@@ -1,0 +1,96 @@
+<title>Today — RoadTo FIFA WC</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="What's new from AIFF today and recently — new documents, new news, new governance changes, all dated and sourced.">
+<link rel="stylesheet" href="assets/style.css">
+
+<header class="site">
+  <div class="wrap">
+    <div class="brand">RoadTo FIFA WC<small>AIFF Transparency Tracker</small></div>
+    <nav class="site">
+      <a href="index.html">Home</a>
+      <a href="today.html">Today</a>
+      <a href="news.html">News</a>
+      <a href="documents.html">Documents</a>
+      <a href="financials.html">Financials</a>
+      <a href="governance.html">Governance</a>
+      <a href="conduct.html">Conduct &amp; Rules</a>
+      <a href="timeline.html">Timeline</a>
+      <a href="legal.html">Legal</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+<div class="disclaimer-bar">
+  <div class="wrap">⚠️ <span>This page shows what changed since the previous daily scrape — a real changelog, not a live feed. AIFF's site is checked once a day.</span></div>
+</div>
+
+<main>
+  <div class="wrap">
+    <h1>What's New</h1>
+    <p class="lede">A day-by-day changelog of exactly what appeared on AIFF's own site — new documents and new news items — built by diffing each day's scrape against the previous one. Nothing here is summarized or interpreted; it's literally what showed up.</p>
+    <div id="last-updated" class="badge-live">Loading…</div>
+
+    <div id="changelog-list"><div class="loading-state">Loading…</div></div>
+
+    <h2>Right now on AIFF's site</h2>
+    <p class="lede">The 8 most recent items currently listed, regardless of when they were first spotted.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;" id="latest-grid">
+      <div>
+        <h3 style="margin-top:0;">Latest news</h3>
+        <div id="latest-news"><div class="loading-state">Loading…</div></div>
+      </div>
+      <div>
+        <h3 style="margin-top:0;">Latest documents</h3>
+        <div id="latest-docs"><div class="loading-state">Loading…</div></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap"><p>Refreshed daily by an automated, rate-limited scraper — see <a href="about.html">Methodology</a>.</p></div></footer>
+
+<style>
+  @media (max-width: 700px) { #latest-grid { grid-template-columns: 1fr !important; } }
+</style>
+
+<script src="assets/app.js"></script>
+<script>
+  (async () => {
+    loadManifest("#last-updated");
+    try {
+      const [changelog, news, docs] = await Promise.all([
+        DATA.json("changelog.json").catch(() => []),
+        DATA.json("news.json"),
+        DATA.json("documents.json"),
+      ]);
+
+      const cl = document.getElementById("changelog-list");
+      if (!changelog.length) {
+        cl.innerHTML = `<div class="empty-state">No day-over-day changes recorded yet — the changelog starts accumulating from the first time the daily scraper runs twice. Check back tomorrow, or see "Right now" below for the current snapshot.</div>`;
+      } else {
+        cl.innerHTML = changelog.map(day => `
+          <div class="card">
+            <div class="date">${escapeHtml(day.date)}</div>
+            ${day.new_documents.length ? `<p><strong>${day.new_documents.length} new document(s):</strong></p><ul class="source-list">${day.new_documents.map(d => `<li><a href="${escapeHtml(d.url)}" target="_blank" rel="noopener">${escapeHtml(d.title)}</a> <span class="pill">${escapeHtml(d.category)}</span></li>`).join("")}</ul>` : ""}
+            ${day.new_news.length ? `<p><strong>${day.new_news.length} new news item(s):</strong></p><ul class="source-list">${day.new_news.map(n => `<li><a href="${escapeHtml(n.url)}" target="_blank" rel="noopener">${escapeHtml(n.title)}</a></li>`).join("")}</ul>` : ""}
+          </div>`).join("");
+      }
+
+      document.getElementById("latest-news").innerHTML = news.slice(0, 8).map(n => `
+        <div class="card">
+          <h3 style="font-size:0.92rem;"><a href="${escapeHtml(n.url)}" target="_blank" rel="noopener">${escapeHtml(n.title)}</a></h3>
+          <div class="meta-row">${n.category ? `<span class="pill">${escapeHtml(n.category)}</span>` : ""}<span>${escapeHtml(n.date_text || "")}</span></div>
+        </div>`).join("");
+
+      document.getElementById("latest-docs").innerHTML = docs.slice(0, 8).map(d => `
+        <div class="card">
+          <h3 style="font-size:0.92rem;"><a href="${escapeHtml(d.file_url)}" target="_blank" rel="noopener">${escapeHtml(d.title)}</a></h3>
+          <div class="meta-row"><span class="pill">${escapeHtml(d.category)}</span>${d.year ? `<span class="pill">${escapeHtml(d.year)}</span>` : ""}</div>
+        </div>`).join("");
+    } catch (e) {
+      console.error(e);
+      document.getElementById("changelog-list").innerHTML = `<div class="empty-state">Failed to load changelog.</div>`;
+    }
+  })();
+</script>

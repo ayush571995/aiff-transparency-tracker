@@ -1,8 +1,12 @@
 {
-  "last_updated": "2026-08-21T14:21:23Z",
+  "last_updated": "2026-08-21T14:34:01Z",
   "counts": {
     "documents": 270,
     "news": 17,
     "governance": 22
+  },
+  "today_new_counts": {
+    "documents": 0,
+    "news": 0
   }
 }

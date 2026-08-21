@@ -1,0 +1,34 @@
+name: Deploy to GitHub Pages
+
+# Alternative to deploy.yml (Azure). Use whichever host you actually want — both read
+# the same site/ folder, so nothing else in the repo needs to change either way.
+# To enable: repo Settings -> Pages -> Source -> "GitHub Actions". No secrets needed.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: "site"
+      - id: deployment
+        uses: actions/deploy-pages@v4
