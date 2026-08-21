@@ -56,6 +56,17 @@ function setActiveNav() {
   });
 }
 
+function setupNavToggle() {
+  const toggle = document.getElementById("nav-toggle");
+  const nav = document.getElementById("site-nav");
+  if (!toggle || !nav) return;
+  toggle.addEventListener("click", () => {
+    const isOpen = nav.classList.toggle("open");
+    toggle.setAttribute("aria-expanded", String(isOpen));
+    toggle.textContent = isOpen ? "✕" : "☰";
+  });
+}
+
 // Apply theme override from viewer preference if the host sets data-theme on <html>.
 (function () {
   try {
@@ -64,4 +75,7 @@ function setActiveNav() {
   } catch {}
 })();
 
-document.addEventListener("DOMContentLoaded", setActiveNav);
+document.addEventListener("DOMContentLoaded", () => {
+  setActiveNav();
+  setupNavToggle();
+});

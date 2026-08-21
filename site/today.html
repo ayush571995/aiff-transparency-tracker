@@ -1,13 +1,16 @@
 <title>Today — RoadTo FIFA WC</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="What's new from AIFF today and recently — new documents, new news, new governance changes, all dated and sourced.">
+<meta name="description" content="A day-by-day, permanently partitioned record of what changed on AIFF's site — new documents and news, one file per calendar day.">
 <link rel="stylesheet" href="assets/style.css">
 
 <header class="site">
   <div class="wrap">
-    <div class="brand">RoadTo FIFA WC<small>AIFF Transparency Tracker</small></div>
-    <nav class="site">
+    <div class="brand-row">
+      <div class="brand">RoadTo FIFA WC<small>AIFF Transparency Tracker</small></div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    </div>
+    <nav class="site" id="site-nav">
       <a href="index.html">Home</a>
       <a href="today.html">Today</a>
       <a href="news.html">News</a>
@@ -22,20 +25,22 @@
   </div>
 </header>
 <div class="disclaimer-bar">
-  <div class="wrap">⚠️ <span>This page shows what changed since the previous daily scrape — a real changelog, not a live feed. AIFF's site is checked once a day.</span></div>
+  <div class="wrap">⚠️ <span>Each calendar day gets its own permanent record — a real partition, not a rolling log that quietly drops old entries. AIFF's site is checked once a day.</span></div>
 </div>
 
 <main>
   <div class="wrap">
-    <h1>What's New</h1>
-    <p class="lede">A day-by-day changelog of exactly what appeared on AIFF's own site — new documents and new news items — built by diffing each day's scrape against the previous one. Nothing here is summarized or interpreted; it's literally what showed up.</p>
+    <h1>What's New, Day by Day</h1>
+    <p class="lede">Every daily scrape is diffed against the previous one and saved as its own dated file under <code>data/history/</code> — permanently, one partition per day. This page reads that history straight through.</p>
     <div id="last-updated" class="badge-live">Loading…</div>
 
-    <div id="changelog-list"><div class="loading-state">Loading…</div></div>
+    <div class="day-columns" id="day-columns">
+      <div class="loading-state">Loading daily history…</div>
+    </div>
 
     <h2>Right now on AIFF's site</h2>
-    <p class="lede">The 8 most recent items currently listed, regardless of when they were first spotted.</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;" id="latest-grid">
+    <p class="lede">The 8 most recent items currently listed, regardless of which day they were first spotted.</p>
+    <div class="two-col">
       <div>
         <h3 style="margin-top:0;">Latest news</h3>
         <div id="latest-news"><div class="loading-state">Loading…</div></div>
@@ -50,32 +55,14 @@
 
 <footer class="site"><div class="wrap"><p>Refreshed daily by an automated, rate-limited scraper — see <a href="about.html">Methodology</a>.</p></div></footer>
 
-<style>
-  @media (max-width: 700px) { #latest-grid { grid-template-columns: 1fr !important; } }
-</style>
-
 <script src="assets/app.js"></script>
 <script>
+  const DAYS_TO_SHOW = 30;
+
   (async () => {
     loadManifest("#last-updated");
     try {
-      const [changelog, news, docs] = await Promise.all([
-        DATA.json("changelog.json").catch(() => []),
-        DATA.json("news.json"),
-        DATA.json("documents.json"),
-      ]);
-
-      const cl = document.getElementById("changelog-list");
-      if (!changelog.length) {
-        cl.innerHTML = `<div class="empty-state">No day-over-day changes recorded yet — the changelog starts accumulating from the first time the daily scraper runs twice. Check back tomorrow, or see "Right now" below for the current snapshot.</div>`;
-      } else {
-        cl.innerHTML = changelog.map(day => `
-          <div class="card">
-            <div class="date">${escapeHtml(day.date)}</div>
-            ${day.new_documents.length ? `<p><strong>${day.new_documents.length} new document(s):</strong></p><ul class="source-list">${day.new_documents.map(d => `<li><a href="${escapeHtml(d.url)}" target="_blank" rel="noopener">${escapeHtml(d.title)}</a> <span class="pill">${escapeHtml(d.category)}</span></li>`).join("")}</ul>` : ""}
-            ${day.new_news.length ? `<p><strong>${day.new_news.length} new news item(s):</strong></p><ul class="source-list">${day.new_news.map(n => `<li><a href="${escapeHtml(n.url)}" target="_blank" rel="noopener">${escapeHtml(n.title)}</a></li>`).join("")}</ul>` : ""}
-          </div>`).join("");
-      }
+      const [news, docs] = await Promise.all([DATA.json("news.json"), DATA.json("documents.json")]);
 
       document.getElementById("latest-news").innerHTML = news.slice(0, 8).map(n => `
         <div class="card">
@@ -90,7 +77,38 @@
         </div>`).join("");
     } catch (e) {
       console.error(e);
-      document.getElementById("changelog-list").innerHTML = `<div class="empty-state">Failed to load changelog.</div>`;
+    }
+
+    const columnsEl = document.getElementById("day-columns");
+    try {
+      const index = await DATA.json("history/index.json");
+      const dates = (index.dates || []).slice(0, DAYS_TO_SHOW);
+      if (!dates.length) {
+        columnsEl.innerHTML = `<div class="empty-state">No daily history yet — this accumulates one partition per day starting from the first scrape. Check back after the next scheduled run.</div>`;
+        return;
+      }
+
+      const days = await Promise.all(dates.map(d => DATA.json(`history/${d}.json`).catch(() => null)));
+
+      columnsEl.innerHTML = days.filter(Boolean).map(day => {
+        const hasChanges = day.new_documents.length || day.new_news.length;
+        return `
+        <div class="day-col">
+          <div class="day-col-head">
+            <div class="date">${escapeHtml(day.date)}</div>
+            ${hasChanges
+              ? `<span class="pill">${day.new_documents.length + day.new_news.length} change${day.new_documents.length + day.new_news.length === 1 ? "" : "s"}</span>`
+              : `<span class="pill">no changes</span>`}
+          </div>
+          ${day.totals ? `<div class="meta-row" style="margin-bottom:8px;">running totals: ${day.totals.documents} documents · ${day.totals.news} news · ${day.totals.governance} exec. members</div>` : ""}
+          ${day.new_documents.length ? `<p style="font-weight:600;margin:8px 0 4px;">New documents</p><ul class="source-list">${day.new_documents.map(d => `<li><a href="${escapeHtml(d.url)}" target="_blank" rel="noopener">${escapeHtml(d.title)}</a> <span class="pill">${escapeHtml(d.category)}</span></li>`).join("")}</ul>` : ""}
+          ${day.new_news.length ? `<p style="font-weight:600;margin:8px 0 4px;">New news</p><ul class="source-list">${day.new_news.map(n => `<li><a href="${escapeHtml(n.url)}" target="_blank" rel="noopener">${escapeHtml(n.title)}</a></li>`).join("")}</ul>` : ""}
+          ${!hasChanges ? `<p style="color:var(--text-muted);font-size:0.85rem;">Scraper ran, found nothing new — confirms the check happened, not just silence.</p>` : ""}
+        </div>`;
+      }).join("");
+    } catch (e) {
+      console.error(e);
+      columnsEl.innerHTML = `<div class="empty-state">Failed to load daily history.</div>`;
     }
   })();
 </script>
