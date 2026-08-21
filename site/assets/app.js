@@ -75,7 +75,31 @@ function setupNavToggle() {
   } catch {}
 })();
 
+function setupScrollElevation() {
+  const header = document.querySelector("header.site");
+  if (!header) return;
+  const onScroll = () => header.classList.toggle("elevated", window.scrollY > 4);
+  document.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+}
+
+function setupBackToTopFab() {
+  const fab = document.createElement("button");
+  fab.className = "fab-top";
+  fab.setAttribute("aria-label", "Back to top");
+  fab.textContent = "↑";
+  fab.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  document.body.appendChild(fab);
+  document.addEventListener(
+    "scroll",
+    () => fab.classList.toggle("visible", window.scrollY > 500),
+    { passive: true }
+  );
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   setActiveNav();
   setupNavToggle();
+  setupScrollElevation();
+  setupBackToTopFab();
 });
