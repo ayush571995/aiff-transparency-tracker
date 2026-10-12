@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-11T09:57:06Z",
+  "last_updated": "2026-10-12T10:42:46Z",
   "counts": {
     "documents": 270,
     "news": 17,
@@ -8,6 +8,6 @@
   },
   "today_new_counts": {
     "documents": 0,
-    "news": 1
+    "news": 2
   }
 }
