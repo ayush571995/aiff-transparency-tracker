@@ -1,13 +1,13 @@
 {
-  "last_updated": "2026-11-20T11:29:27Z",
+  "last_updated": "2026-11-21T10:56:17Z",
   "counts": {
-    "documents": 277,
+    "documents": 286,
     "news": 17,
     "governance": 22,
     "tender_results": 7
   },
   "today_new_counts": {
-    "documents": 0,
-    "news": 2
+    "documents": 9,
+    "news": 1
   }
 }
