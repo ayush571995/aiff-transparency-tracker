@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-21T10:56:17Z",
+  "last_updated": "2026-11-22T11:14:40Z",
   "counts": {
     "documents": 286,
     "news": 17,
@@ -7,7 +7,7 @@
     "tender_results": 7
   },
   "today_new_counts": {
-    "documents": 9,
-    "news": 1
+    "documents": 0,
+    "news": 0
   }
 }
